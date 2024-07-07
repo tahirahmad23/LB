@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+    <p></p>
+    <h3>Title : {{ course.title }}</h3>
+    <p></p>
+    <h3>Code : {{ course.code }}</h3>
+    <p></p>
+    <h3>Outline : {{ course.outline}}</h3>
+    <p></p>
+
+    <h4>Materials:</h4>
+    {% for material in course.materials.all %}
+    <div class="">
+      <h5>{{material.name}}</h5>
+      <a class="btn btn-dark btn-sm"href="{{media}}{{material.file}}" download ={{material.name}}>
+        download</a>
+        <a class="btn btn-dark btn-sm" href="{% url 'library:deletematerial' pk=material.pk%}">delete</a>
+        <a class="btn btn-dark btn-sm" href="{% url 'library:updatematerial' pk=material.pk%}">update</a>
+        <p></p>
+        <h6>Reviews:</h6>
+        <div class="reviewlist">
+          {% for review in material.reviews.all %}
+          <p>{{ review.user }} -- {{ review.rating }}</p>
+          <p></p>
+          {% endfor %}
+
+        </div>
+        {% if user.is_authenticated %}
+          {% if not reviewed%}
+        <form class="reviewform" action="{% url 'library:add_review' pk=material.pk %}"method="post">
+          {% csrf_token %}
+          {{form}}
+          <input type="submit" name="" value="submit">
+        </form>
+        {% endif %}
+        {% endif %}
+        <p></p>
+    </div>
+    <p></p>
+
+    {% endfor %}
+
+    {% if is_uploader %}
+    <a href="{% url 'library:creatematerial' course=course%}">new material</a>
+    {% endif %}
+{% endblock %}

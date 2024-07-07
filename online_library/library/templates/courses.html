@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="filterform" method="post" action="{% url 'library:filter'%}">
+  {% csrf_token %}
+  {{ form.faculty }}
+  {{ form.department }}
+  {{ form.level}}
+</form>
+<div class="list">
+
+  {% for course in course_list %}
+  <div class="course" department = "{{course.department.name}}" faculty="{{course.faculty.name}}" level="{{course.level.name}}">
+    <p></p>
+    <h4>{{course.code}}-{{course.title}}</h4>
+    <p></p>
+    <a href="{% url 'library:coursedetail' pk=course.pk%}" class="btn btn-dark">view course</a>
+  </div>
+  {% endfor %}
+</div>
+
+  {% for department in departments.all %}
+    <div testdata ="{{department.name}}-{{department.faculty.name}}"  class="store"></div>
+  {% endfor %}
+
+  <!-- jquery for filter function -->
+
+{% endblock %}

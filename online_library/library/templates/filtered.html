@@ -1,0 +1,8 @@
+{% for course in courses %}
+<div class="course" department = "{{course.department.name}}" faculty="{{course.faculty.name}}" level="{{course.level.name}}">
+  <p></p>
+  <h4>{{course.code}}-{{course.title}}</h4>
+  <p></p>
+  <a href="{% url 'library:coursedetail' pk=course.pk%}" class="btn btn-dark">view course</a>
+</div>
+{% endfor %}
